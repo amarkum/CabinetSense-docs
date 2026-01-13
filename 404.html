@@ -51,7 +51,70 @@
 
     
     
-  </head>
+  
+    <style id="sidebar-fix-css">
+    @media screen and (min-width: 76.25em) {
+        #__drawer { display: none !important; }
+        .md-sidebar--primary {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+            position: sticky !important;
+            top: 2.4rem !important;
+            width: 12.1rem !important;
+            height: calc(100vh - 2.4rem) !important;
+            overflow-y: auto !important;
+        }
+        [data-md-toggle="drawer"]:not(:checked) ~ .md-container .md-sidebar--primary,
+        [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+            display: block !important;
+            visibility: visible !important;
+            transform: translateX(0) !important;
+        }
+        .md-main__inner {
+            display: grid !important;
+            grid-template-columns: 12.1rem minmax(0, 1fr) !important;
+        }
+        .md-header__button[for="__drawer"],
+        label[for="__drawer"] {
+            display: none !important;
+        }
+    }
+    @media screen and (max-width: 76.1875em) {
+        .md-sidebar--primary { display: none; }
+        [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+            display: block !important;
+        }
+    }
+    </style>
+    <script id="sidebar-fix-js">
+    (function() {
+        function initSidebar() {
+            if (window.innerWidth >= 1220) {
+                var drawer = document.getElementById('__drawer');
+                var sidebar = document.querySelector('.md-sidebar--primary');
+                var mainInner = document.querySelector('.md-main__inner');
+                if (drawer) drawer.checked = true;
+                if (sidebar) {
+                    sidebar.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(0) !important;';
+                }
+                if (mainInner) {
+                    mainInner.style.cssText = 'display: grid !important; grid-template-columns: 12.1rem minmax(0, 1fr) !important;';
+                }
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSidebar);
+        } else {
+            initSidebar();
+        }
+        window.addEventListener('resize', initSidebar);
+        setTimeout(initSidebar, 50);
+        setTimeout(initSidebar, 200);
+    })();
+    </script>
+</head>
   
   
     
