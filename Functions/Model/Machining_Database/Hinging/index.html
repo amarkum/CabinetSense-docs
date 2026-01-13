@@ -55,29 +55,91 @@
     
   
     <style>
-    /* Ensure sidebar is always visible on desktop */
+    /* Force sidebar to be visible on desktop screens */
     @media screen and (min-width: 76.25em) {
+        /* Ensure drawer checkbox is checked */
+        #__drawer {
+            display: none !important;
+        }
+        
+        /* Force sidebar to be visible */
         .md-sidebar--primary {
             display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
             transform: translateX(0) !important;
             position: sticky !important;
             top: 2.4rem !important;
+            width: 12.1rem !important;
+            height: auto !important;
+            overflow-y: auto !important;
         }
-        [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
-            transform: translateX(0) !important;
+        
+        /* Ensure container includes sidebar in grid */
+        .md-container {
+            display: flex !important;
         }
+        
+        .md-main {
+            flex: 1 !important;
+        }
+        
         .md-main__inner {
             display: grid !important;
             grid-template-columns: 12.1rem minmax(0, 1fr) !important;
+            margin-left: 0 !important;
+        }
+        
+        /* Override any hiding styles */
+        [data-md-toggle="drawer"]:not(:checked) ~ .md-container .md-sidebar--primary,
+        [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+            display: block !important;
+            transform: translateX(0) !important;
+        }
+        
+        /* Hide mobile menu button on desktop */
+        .md-header__button.md-icon--menu {
+            display: none !important;
         }
     }
-    /* Ensure drawer is checked by default on desktop */
-    @media screen and (min-width: 76.25em) {
-        #__drawer {
-            display: none;
+    
+    /* Mobile: Keep sidebar hidden unless drawer is open */
+    @media screen and (max-width: 76.1875em) {
+        .md-sidebar--primary {
+            display: none !important;
+        }
+        [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--primary {
+            display: block !important;
         }
     }
     </style>
+    <script>
+    // Ensure drawer is checked on desktop for sidebar visibility
+    (function() {
+        function ensureSidebarVisible() {
+            if (window.innerWidth >= 1220) { // 76.25em = 1220px
+                var drawer = document.getElementById('__drawer');
+                if (drawer) {
+                    drawer.checked = true;
+                }
+                // Also ensure sidebar is visible
+                var sidebar = document.querySelector('.md-sidebar--primary');
+                if (sidebar) {
+                    sidebar.style.display = 'block';
+                    sidebar.style.visibility = 'visible';
+                    sidebar.style.transform = 'translateX(0)';
+                }
+            }
+        }
+        // Run on load and resize
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', ensureSidebarVisible);
+        } else {
+            ensureSidebarVisible();
+        }
+        window.addEventListener('resize', ensureSidebarVisible);
+    })();
+    </script>
 </head>
   
   
@@ -2271,6 +2333,12 @@ By following the instructions and guidelines provided in this document, users ca
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
@@ -2300,7 +2368,7 @@ By following the instructions and guidelines provided in this document, users ca
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/CabinetSense-docs/", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sidebar", "navigation.expand", "navigation.index"], "search": "/CabinetSense-docs/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "/CabinetSense-docs/", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sidebar", "navigation.expand", "navigation.index", "navigation.top"], "search": "/CabinetSense-docs/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
